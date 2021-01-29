@@ -7,3 +7,4 @@
 ## Construire le jar de l'application
 
   ./gradlew assemble
+##test
