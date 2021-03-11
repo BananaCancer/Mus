@@ -15,8 +15,8 @@ class GrandTest {
     Joueur joueurEsku = unJoueurAvec(main(Carte.AS_BATON, Carte.CINQ_PIECE, Carte.CAVALIER_BATON, Carte.SIX_COUPE));
     Joueur joueurZaku = unJoueurAvec(main(Carte.DEUX_BATON, Carte.TROIS_PIECE, Carte.SEPT_BATON, Carte.AS_PIECE));
 
-    Equipe equipeEsku = uneEquipeAvec(joueurEsku);
-    Equipe equipeZaku = uneEquipeAvec(joueurZaku);
+    Equipe equipeEsku = uneEquipeAvec(joueurEsku, unJoueur());
+    Equipe equipeZaku = uneEquipeAvec(unJoueur(), joueurZaku);
 
     Joueur vainqueur = new Grand().meilleurParmi(new Opposants(equipeEsku, equipeZaku));
 
@@ -27,8 +27,8 @@ class GrandTest {
     Joueur joueurEsku = unJoueurAvec(main(Carte.AS_BATON, Carte.CINQ_PIECE, Carte.SEPT_BATON, Carte.SIX_COUPE));
     Joueur joueurZaku = unJoueurAvec(main(Carte.DEUX_BATON, Carte.TROIS_PIECE, Carte.CAVALIER_BATON, Carte.AS_PIECE));
 
-    Equipe equipeEsku = uneEquipeAvec(joueurEsku);
-    Equipe equipeZaku = uneEquipeAvec(joueurZaku);
+    Equipe equipeEsku = uneEquipeAvec(joueurEsku, unJoueur());
+    Equipe equipeZaku = uneEquipeAvec(unJoueur(), joueurZaku);
 
     Joueur vainqueur = new Grand().meilleurParmi(new Opposants(equipeEsku, equipeZaku));
 
@@ -40,8 +40,8 @@ class GrandTest {
     Joueur joueurEsku = unJoueurAvec(main(Carte.AS_BATON, Carte.CINQ_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE));
     Joueur joueurZaku = unJoueurAvec(main(Carte.DEUX_BATON, Carte.VALET_PIECE, Carte.QUATRE_BATON, Carte.SEPT_PIECE));
 
-    Equipe equipeEsku = uneEquipeAvec(joueurEsku);
-    Equipe equipeZaku = uneEquipeAvec(joueurZaku);
+    Equipe equipeEsku = uneEquipeAvec(joueurEsku, unJoueur());
+    Equipe equipeZaku = uneEquipeAvec(unJoueur(), joueurZaku);
 
     Joueur vainqueur = new Grand().meilleurParmi(new Opposants(equipeEsku, equipeZaku));
 
@@ -53,8 +53,8 @@ class GrandTest {
     Joueur joueurEsku = unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE));
     Joueur joueurZaku = unJoueurAvec(main(Carte.VALET_PIECE, Carte.SIX_PIECE, Carte.QUATRE_BATON, Carte.AS_PIECE));
 
-    Equipe equipeEsku = uneEquipeAvec(joueurEsku);
-    Equipe equipeZaku = uneEquipeAvec(joueurZaku);
+    Equipe equipeEsku = uneEquipeAvec(joueurEsku, unJoueur());
+    Equipe equipeZaku = uneEquipeAvec(unJoueur(), joueurZaku);
 
     Joueur vainqueur = new Grand().meilleurParmi(new Opposants(equipeEsku, equipeZaku));
 

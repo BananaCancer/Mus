@@ -20,11 +20,14 @@ class PartieTest {
   void setUp() {
     interfaceJoueurEsku = mock(InterfaceJoueur.class);
     interfaceJoueurZaku = mock(InterfaceJoueur.class);
+    interfaceJoueurNormal = mock(InterfaceJoueur.class);
     Joueur joueurEsku = new Joueur("J1", interfaceJoueurEsku);
     Joueur joueurZaku = new Joueur("J2", interfaceJoueurZaku);
+    Joueur joueurNormal1 = new Joueur("J3", interfaceJoueurNormal);
+    Joueur joueurNormal2 = new Joueur("J4", interfaceJoueurNormal);
 
-    Equipe equipeEsku = new Equipe("E1", joueurEsku);
-    Equipe equipeZaku = new Equipe("E2", joueurZaku);
+    Equipe equipeEsku = new Equipe("E1", joueurEsku, joueurNormal1);
+    Equipe equipeZaku = new Equipe("E2", joueurNormal2, joueurZaku);
 
     opposants = new Opposants(equipeEsku, equipeZaku);
     partie = new Partie(mock(AffichageEvenementsDeJeu.class));
@@ -43,6 +46,7 @@ class PartieTest {
 
   private InterfaceJoueur interfaceJoueurEsku;
   private InterfaceJoueur interfaceJoueurZaku;
+  private InterfaceJoueur interfaceJoueurNormal;
   private Opposants opposants;
   private Partie partie;
 }

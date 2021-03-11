@@ -16,11 +16,11 @@ public class Fixtures {
   }
 
   public static Equipe uneEquipe(){
-    return  new Equipe("equipeOrdinaeur", unJoueur());
+    return  new Equipe("equipeOrdinaeur", unJoueur(), unJoueur());
   }
 
-  public static Equipe uneEquipeAvec(Joueur joueurAvec){
-    return new Equipe("Ordinateur", joueurAvec);
+  public static Equipe uneEquipeAvec(Joueur joueurAvec1, Joueur joueurAvec2){
+    return new Equipe("Ordinateur", joueurAvec1, joueurAvec2);
   }
 
   public static Main main(Carte... cartes) {

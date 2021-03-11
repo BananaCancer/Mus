@@ -31,10 +31,13 @@ class TourTest {
   void setUp() {
     interfaceJoueurEsku = mock(InterfaceJoueur.class);
     interfaceJoueurZaku = mock(InterfaceJoueur.class);
+    interfaceJoueurNormal = mock(InterfaceJoueur.class);
     joueurEsku = new Joueur("J1", interfaceJoueurEsku);
-    joueurZaku = new Joueur("J2", interfaceJoueurZaku);
-    equipeEsku = new Equipe("E1", joueurEsku);
-    equipeZaku = new Equipe("E2", joueurZaku);
+    joueurZaku = new Joueur("J4", interfaceJoueurZaku);
+    joueurNormal1 = new Joueur("J2", interfaceJoueurNormal);
+    joueurNormal2 = new Joueur("J3", interfaceJoueurNormal);
+    equipeEsku = new Equipe("E1", joueurEsku, joueurNormal1);
+    equipeZaku = new Equipe("E2", joueurNormal2, joueurZaku);
     opposants = new Opposants(equipeEsku, equipeZaku);
     score = new Manche.Score(opposants);
     evenementsDeJeu = mock(AffichageEvenementsDeJeu.class);
@@ -117,8 +120,11 @@ class TourTest {
 
   private InterfaceJoueur interfaceJoueurEsku;
   private InterfaceJoueur interfaceJoueurZaku;
+  private InterfaceJoueur interfaceJoueurNormal;
   private Joueur joueurEsku;
   private Joueur joueurZaku;
+  private Joueur joueurNormal1;
+  private Joueur joueurNormal2;
   private Equipe equipeEsku;
   private Equipe equipeZaku;
   private Opposants opposants;

@@ -17,9 +17,9 @@ public class FauxJeu extends Phase {
 
   @Override
   protected Joueur meilleurParmi(Opposants opposants) {
-    int pointsJoueurEsku = opposants.joueurEsku().main().pointsPourJeu();
-    int pointsJoueurZaku = opposants.joueurZaku().main().pointsPourJeu();
-    return pointsJoueurEsku >= pointsJoueurZaku ? opposants.joueurEsku() : opposants.joueurZaku();
+    int pointsJoueurEsku = opposants.getJoueurEsku().main().pointsPourJeu();
+    int pointsJoueurZaku = opposants.getJoueurZaku().main().pointsPourJeu();
+    return pointsJoueurEsku >= pointsJoueurZaku ? opposants.getJoueurEsku() : opposants.getJoueurZaku();
   }
 
   @Override
