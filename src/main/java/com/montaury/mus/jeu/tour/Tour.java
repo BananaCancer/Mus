@@ -16,58 +16,73 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class Tour {
+public class Tour
+{
 
   private final AffichageEvenementsDeJeu affichage;
   private final Paquet paquet;
   private final Defausse defausse;
 
-  public Tour(AffichageEvenementsDeJeu affichage) {
+  public Tour(AffichageEvenementsDeJeu affichage)
+  {
     this.affichage = affichage;
     this.defausse = new Defausse();
     this.paquet = Paquet.nouveauMelange(defausse);
   }
 
-  Tour(AffichageEvenementsDeJeu affichage, Paquet paquet, Defausse defausse) {
+  Tour(AffichageEvenementsDeJeu affichage, Paquet paquet, Defausse defausse)
+  {
     this.affichage = affichage;
     this.paquet = paquet;
     this.defausse = defausse;
   }
 
-  public void jouer(Opposants opposants, Manche.Score score) {
+  public void jouerTour(Opposants opposants, Manche.ScoreManche scoreManche)
+  {
     affichage.nouveauTour(opposants);
-    new Mus(paquet, defausse, affichage).jouer(opposants);
+    new Mus(paquet, defausse, affichage).jouerMus(opposants);
 
     ResultatsPhases resultats = new ResultatsPhases();
     Iterator<Phase> phases = phasesJouablesPar(opposants).iterator();
-    do {
-      Phase.Resultat resultat = phases.next().jouer(affichage, opposants, score);
+
+    do
+    {
+      Phase.Resultat resultat = phases.next().jouerPhase(affichage, opposants, scoreManche);
       resultats.ajouter(resultat);
-    } while (phases.hasNext() && score.vainqueur().isEmpty());
-    resultats.attribuerPointsRestants(score);
+    } while (phases.hasNext() && scoreManche.vainqueur().isEmpty());
+
+
+    resultats.attribuerPointsRestants(scoreManche);
   }
 
-  private static Iterable<Phase> phasesJouablesPar(Opposants opposants) {
+  private static Iterable<Phase> phasesJouablesPar(Opposants opposants)
+  {
     Phase phaseDuJeu = new Jeu();
-    if (phaseDuJeu.participantsParmi(opposants).isEmpty()) {
+    if (phaseDuJeu.participantsParmi(opposants).isEmpty())
+    {
       phaseDuJeu = new FauxJeu();
     }
     return List.of(new Grand(), new Petit(), new Paires(), phaseDuJeu);
   }
 
-  static class ResultatsPhases {
+  static class ResultatsPhases
+  {
     private final List<Phase.Resultat> resultats = new ArrayList<>();
 
-    public void ajouter(Phase.Resultat resultat) {
+    public void ajouter(Phase.Resultat resultat)
+    {
       this.resultats.add(resultat);
     }
 
-    public void attribuerPointsRestants(Manche.Score score) {
+    public void attribuerPointsRestants(Manche.ScoreManche scoreManche)
+    {
       Iterator<Phase.Resultat> resultatPhase = resultats.iterator();
-      while (resultatPhase.hasNext() && score.vainqueur().isEmpty()) {
+
+      while (resultatPhase.hasNext() && scoreManche.vainqueur().isEmpty())
+      {
         Phase.Resultat resultat = resultatPhase.next();
         resultat.vainqueur().ifPresent(vainqueur ->
-          score.scorer(vainqueur, resultat.pointsEnSuspens + resultat.bonus));
+          scoreManche.scorer(vainqueur.getEquipeDuJoueur(), resultat.pointsEnSuspens + resultat.bonus));
       }
     }
   }

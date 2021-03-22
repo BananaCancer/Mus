@@ -9,42 +9,53 @@ import com.montaury.mus.jeu.joueur.Opposants;
 import com.montaury.mus.jeu.tour.phases.dialogue.Mintza;
 import java.util.List;
 
-public class Mus {
+public class Mus
+{
   private final Paquet paquet;
   private final Defausse defausse;
   private final AffichageEvenementsDeJeu affichage;
 
-  public Mus(Paquet paquet, Defausse defausse, AffichageEvenementsDeJeu affichage) {
+  public Mus(Paquet paquet, Defausse defausse, AffichageEvenementsDeJeu affichage)
+  {
     this.paquet = paquet;
     this.defausse = defausse;
     this.affichage = affichage;
   }
 
-  public void jouer(Opposants opposants) {
+  public void jouerMus(Opposants opposants)
+  {
     List<Joueur> joueursDansLOrdre = opposants.dansLOrdre();
     joueursDansLOrdre.forEach(joueur -> joueur.main().jeterTout());
 
     boolean mus;
-    do {
+    
+    do
+    {
       joueursDansLOrdre.forEach(joueur -> completerMain(affichage, joueur));
       mus = veulentAllerMus(affichage, joueursDansLOrdre);
-      if (mus) {
+      if (mus)
+      {
         joueursDansLOrdre.forEach(this::allerMus);
       }
     }
     while (mus);
+    
   }
 
-  private void completerMain(AffichageEvenementsDeJeu affichage, Joueur joueur) {
+  private void completerMain(AffichageEvenementsDeJeu affichage, Joueur joueur)
+  {
     joueur.donnerCartes(paquet.tirer(joueur.main().nombreCartesManquantes()));
     affichage.nouvelleMain(joueur);
   }
 
-  private boolean veulentAllerMus(AffichageEvenementsDeJeu affichage, List<Joueur> joueurs) {
-    for (Joueur joueur : joueurs) {
+  private boolean veulentAllerMus(AffichageEvenementsDeJeu affichage, List<Joueur> joueurs)
+  {
+    for (Joueur joueur : joueurs)
+    {
       boolean mus = joueur.interfaceJoueur.veutAllerMus();
       affichage.choixFait(joueur, mus ? new com.montaury.mus.jeu.tour.phases.dialogue.Mus() : new Mintza());
-      if (!mus) {
+      if (!mus)
+      {
         return false;
       }
     }

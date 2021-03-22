@@ -2,72 +2,97 @@ package com.montaury.mus.jeu.joueur;
 
 import com.montaury.mus.jeu.Equipe;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
-public class Opposants {
+public class Opposants
+{
   private Joueur joueurEsku;
   private Joueur joueurZaku;
-  private Deque<Joueur> listeDesJoueursOrdonnes;
 
-  private Equipe equipeEsku;
-  private  Equipe equipeZaku;
+  private List<Equipe> listeDesEquipes;
+  private List<Joueur> listeDesJoueursOrdonnes;
 
-  public Opposants(Equipe equipeEsku, Equipe equipeZaku) {
-    listeDesJoueursOrdonnes = new ArrayDeque<Joueur>();
-    listeDesJoueursOrdonnes.add(equipeEsku.getJoueurUn());
-    listeDesJoueursOrdonnes.add(equipeZaku.getJoueurUn());
-    listeDesJoueursOrdonnes.add(equipeEsku.getJoueurDeux());
-    listeDesJoueursOrdonnes.add(equipeZaku.getJoueurDeux());
-    this.joueurEsku = listeDesJoueursOrdonnes.getFirst();
-    this.joueurZaku = listeDesJoueursOrdonnes.getLast();
+  public Opposants(Equipe equipe1, Equipe equipe2)
+  {
+    listeDesEquipes = new ArrayList<>();
+    listeDesJoueursOrdonnes = new ArrayList<>();
+
+    listeDesEquipes.add(equipe1);
+    listeDesEquipes.add(equipe2);
+
+    listeDesJoueursOrdonnes.add(equipe1.getJoueurUn());
+    joueurEsku = listeDesJoueursOrdonnes.get(0);
+    listeDesJoueursOrdonnes.add(equipe2.getJoueurUn());
+    listeDesJoueursOrdonnes.add(equipe1.getJoueurDeux());
+    listeDesJoueursOrdonnes.add(equipe2.getJoueurDeux());
+    joueurZaku = listeDesJoueursOrdonnes.get(3);
+
   }
 
-  public void tourner() {
-    Joueur joueurTeteDeFil = listeDesJoueursOrdonnes.remove();
+  public void tourner()
+  {
+    Joueur joueurTeteDeFil;
+    joueurTeteDeFil = listeDesJoueursOrdonnes.remove(0);
     listeDesJoueursOrdonnes.add(joueurTeteDeFil);
-    joueurEsku = listeDesJoueursOrdonnes.getFirst();
-    joueurZaku = listeDesJoueursOrdonnes.getLast();
+    joueurEsku = listeDesJoueursOrdonnes.get(0);
+    joueurZaku = listeDesJoueursOrdonnes.get(3);
   }
 
-  public Joueur getJoueurEsku() {
+  public Joueur getJoueurEsku()
+  {
     return joueurEsku;
   }
 
-  public Joueur getJoueurZaku() {
+  public Joueur getJoueurZaku()
+  {
     return joueurZaku;
   }
 
+  public List<Equipe> getListeDesEquipes()
+  {
+    return listeDesEquipes;
+  }
 
-
-  public Iterator<Joueur> itererDansLOrdre() {
+  public Iterator<Joueur> itererDansLOrdre()
+  {
     return new IteratorInfini(this);
   }
 
-  public List<Joueur> dansLOrdre() {
-    return List.of(joueurEsku, joueurZaku);
+  public List<Joueur> dansLOrdre()
+  {
+    return listeDesJoueursOrdonnes;
   }
 
-  private static class IteratorInfini implements Iterator<Joueur> {
+  private static class IteratorInfini implements Iterator<Joueur>
+  {
     private final Opposants opposants;
     private Joueur suivant;
 
-    public IteratorInfini(Opposants opposants) {
+    public IteratorInfini(Opposants opposants)
+    {
       this.opposants = opposants;
       suivant = opposants.joueurEsku;
     }
 
     @Override
-    public boolean hasNext() {
+    public boolean hasNext()
+    {
       return true;
     }
 
     @Override
-    public Joueur next() {
+    public Joueur next()
+    {
+      int indexJoueurSuivant;
       Joueur next = suivant;
-      suivant = suivant == opposants.joueurEsku ? opposants.joueurZaku : opposants.joueurEsku;
+      for (Joueur joueurActuel:opposants.listeDesJoueursOrdonnes)
+      {
+        if(joueurActuel == suivant)
+        {
+          indexJoueurSuivant = (opposants.listeDesJoueursOrdonnes.indexOf(joueurActuel)+1)%4;
+          suivant = opposants.listeDesJoueursOrdonnes.get(indexJoueurSuivant);
+        }
+      }
       return next;
     }
   }

@@ -2,10 +2,12 @@ package com.montaury.mus.jeu;
 
 import com.montaury.mus.jeu.joueur.Joueur;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Equipe {
     private String nomEquipe;
-    private Joueur joueurUn;
-    private Joueur joueurDeux;
+    private List<Joueur> listeJoueursEquipe;
 
     public static Equipe equipeHumain(String nomEquipe, String nomJoueur)
     {
@@ -19,17 +21,25 @@ public class Equipe {
 
     public Equipe(String nomE, Joueur joueur1, Joueur joueur2)
     {
+        listeJoueursEquipe = new ArrayList<>();
         this.nomEquipe = nomE;
-        this.joueurUn = joueur1;
-        this.joueurDeux = joueur2;
+        joueur1.setEquipeDuJoueur(this);
+        joueur2.setEquipeDuJoueur(this);
+
+        listeJoueursEquipe.add(joueur1);
+        listeJoueursEquipe.add(joueur2);
     }
 
     public Joueur getJoueurUn() {
-        return joueurUn;
+        return listeJoueursEquipe.get(0);
     }
 
     public Joueur getJoueurDeux() {
-        return joueurDeux;
+        return listeJoueursEquipe.get(1);
+    }
+
+    public List<Joueur> getListeJoueursEquipe() {
+        return listeJoueursEquipe;
     }
 
     public String getNomEquipe() {

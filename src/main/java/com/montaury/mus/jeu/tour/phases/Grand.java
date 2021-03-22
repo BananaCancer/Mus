@@ -10,27 +10,42 @@ import java.util.List;
 import static com.montaury.mus.jeu.carte.ValeurCarte.Comparaison.PLUS_GRANDE;
 import static com.montaury.mus.jeu.carte.ValeurCarte.Comparaison.PLUS_PETITE;
 
-public class Grand extends Phase {
-  public Grand() {
+public class Grand extends Phase
+{
+  public Grand()
+  {
     super("Grand");
   }
 
   @Override
-  protected Joueur meilleurParmi(Opposants opposants) {
-    Joueur joueurEsku = opposants.getJoueurEsku();
-    Joueur joueurZaku = opposants.getJoueurZaku();
-    List<Carte> cartesJoueurEsku = joueurEsku.main().cartesDuPlusGrandAuPlusPetit();
-    List<Carte> cartesJoueurZaku = joueurZaku.main().cartesDuPlusGrandAuPlusPetit();
+  protected Joueur meilleurParmi(Opposants opposants)
+  {
+    Joueur joueurPrioritaire = comparerMainsGrand(opposants.getJoueurEsku(), opposants.dansLOrdre().get(2));
+    Joueur joueurNonPrioritaire = comparerMainsGrand(opposants.dansLOrdre().get(1), opposants.getJoueurZaku());
+    joueurPrioritaire = comparerMainsGrand(joueurPrioritaire, joueurNonPrioritaire);
 
-    for (int i = 0; i < Main.TAILLE; i++) {
+    return  joueurPrioritaire;
+  }
+
+  private  Joueur comparerMainsGrand(Joueur joueurPrioritaire, Joueur joueurNonPrioritaire)
+  {
+    Joueur joueurMeilleureMain = joueurPrioritaire;
+    List<Carte> cartesJoueurEsku = joueurPrioritaire.main().cartesDuPlusGrandAuPlusPetit();
+    List<Carte> cartesJoueurZaku = joueurNonPrioritaire.main().cartesDuPlusGrandAuPlusPetit();
+
+    for (int i = 0; i < Main.TAILLE; i++)
+    {
       ValeurCarte.Comparaison compare = cartesJoueurEsku.get(i).comparerAvec(cartesJoueurZaku.get(i));
-      if (compare == PLUS_GRANDE) {
-        return joueurEsku;
+      if (compare == PLUS_GRANDE)
+      {
+        joueurMeilleureMain = joueurPrioritaire;
       }
-      if (compare == PLUS_PETITE) {
-        return joueurZaku;
+      if (compare == PLUS_PETITE)
+      {
+        joueurMeilleureMain = joueurNonPrioritaire;
       }
     }
-    return joueurEsku;
+
+    return joueurMeilleureMain;
   }
 }

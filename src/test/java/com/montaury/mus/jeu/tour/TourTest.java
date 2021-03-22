@@ -31,65 +31,74 @@ class TourTest {
   void setUp() {
     interfaceJoueurEsku = mock(InterfaceJoueur.class);
     interfaceJoueurZaku = mock(InterfaceJoueur.class);
-    interfaceJoueurNormal = mock(InterfaceJoueur.class);
+    interfaceJoueurNormal1 = mock(InterfaceJoueur.class);
+    interfaceJoueurNormal2 = mock(InterfaceJoueur.class);
     joueurEsku = new Joueur("J1", interfaceJoueurEsku);
     joueurZaku = new Joueur("J4", interfaceJoueurZaku);
-    joueurNormal1 = new Joueur("J2", interfaceJoueurNormal);
-    joueurNormal2 = new Joueur("J3", interfaceJoueurNormal);
+    joueurNormal1 = new Joueur("J2", interfaceJoueurNormal1);
+    joueurNormal2 = new Joueur("J3", interfaceJoueurNormal2);
     equipeEsku = new Equipe("E1", joueurEsku, joueurNormal1);
     equipeZaku = new Equipe("E2", joueurNormal2, joueurZaku);
     opposants = new Opposants(equipeEsku, equipeZaku);
-    score = new Manche.Score(opposants);
+    scoreManche = new Manche.ScoreManche(opposants);
     evenementsDeJeu = mock(AffichageEvenementsDeJeu.class);
     tour = new Tour(evenementsDeJeu, paquetEntierCroissant(), new Defausse());
   }
 
   @Test
-  void devrait_donner_tous_les_points_au_joueur_esku_si_le_joueur_zaku_fait_tira() {
+  void devrait_donner_tous_les_points_a_l_equipe_esku_si_l_equipe_zaku_fait_tira() {
     when(interfaceJoueurEsku.faireChoixParmi(any())).thenReturn(new Imido());
+    when(interfaceJoueurNormal1.faireChoixParmi(any())).thenReturn(new Tira());
+    when(interfaceJoueurNormal2.faireChoixParmi(any())).thenReturn(new Tira());
     when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Tira());
 
-    tour.jouer(opposants, score);
+    tour.jouerTour(opposants, scoreManche);
 
-    assertThat(score.vainqueur()).isEmpty();
-    assertThat(score.scoreParJoueur()).containsEntry(joueurEsku, 8);
-    assertThat(score.scoreParJoueur()).containsEntry(joueurZaku, 0);
+    assertThat(scoreManche.vainqueur()).isEmpty();
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeEsku, 8);
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeZaku, 0);
   }
 
   @Test
   void devrait_repartir_les_points_si_tout_est_paso() {
     when(interfaceJoueurEsku.faireChoixParmi(any())).thenReturn(new Paso());
     when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Paso());
+    when(interfaceJoueurNormal1.faireChoixParmi(any())).thenReturn(new Paso());
+    when(interfaceJoueurNormal2.faireChoixParmi(any())).thenReturn(new Paso());
 
-    tour.jouer(opposants, score);
+    tour.jouerTour(opposants, scoreManche);
 
-    assertThat(score.vainqueur()).isEmpty();
-    assertThat(score.scoreParJoueur()).containsEntry(joueurEsku, 1);
-    assertThat(score.scoreParJoueur()).containsEntry(joueurZaku, 5);
+    assertThat(scoreManche.vainqueur()).isEmpty();
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeEsku, 1);
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeZaku, 5);
   }
 
   @Test
-  void devrait_faire_gagner_le_joueur_zaku_si_hordago_au_grand() {
+  void devrait_faire_gagner_le_equipe_zaku_si_hordago_au_grand() {
     when(interfaceJoueurEsku.faireChoixParmi(any())).thenReturn(new Hordago());
     when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Kanta());
+    when(interfaceJoueurNormal1.faireChoixParmi(any())).thenReturn(new Kanta());
+    when(interfaceJoueurNormal2.faireChoixParmi(any())).thenReturn(new Kanta());
 
-    tour.jouer(opposants, score);
+    tour.jouerTour(opposants, scoreManche);
 
-    assertThat(score.vainqueur()).contains(joueurZaku);
-    assertThat(score.scoreParJoueur()).containsEntry(joueurEsku, 0);
-    assertThat(score.scoreParJoueur()).containsEntry(joueurZaku, 40);
+    assertThat(scoreManche.vainqueur()).contains(equipeZaku);
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeEsku, 0);
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeZaku, 40);
   }
 
   @Test
   void devrait_partager_les_points_si_tout_est_idoki() {
     when(interfaceJoueurEsku.faireChoixParmi(any())).thenReturn(new Imido());
     when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Idoki());
+    when(interfaceJoueurNormal1.faireChoixParmi(any())).thenReturn(new Idoki());
+    when(interfaceJoueurNormal2.faireChoixParmi(any())).thenReturn(new Idoki());
 
-    tour.jouer(opposants, score);
+    tour.jouerTour(opposants, scoreManche);
 
-    assertThat(score.vainqueur()).isEmpty();
-    assertThat(score.scoreParJoueur()).containsEntry(joueurEsku, 2);
-    assertThat(score.scoreParJoueur()).containsEntry(joueurZaku, 10);
+    assertThat(scoreManche.vainqueur()).isEmpty();
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeEsku, 2);
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeZaku, 10);
   }
 
   @Test
@@ -97,30 +106,33 @@ class TourTest {
     when(interfaceJoueurEsku.faireChoixParmi(any())).thenReturn(new Imido(), new Idoki(), new Imido(), new Idoki(), new Imido(), new Idoki(), new Imido(), new Idoki());
     when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Gehiago(2));
 
-    tour.jouer(opposants, score);
+    tour.jouerTour(opposants, scoreManche);
 
-    assertThat(score.vainqueur()).isEmpty();
-    assertThat(score.scoreParJoueur()).containsEntry(joueurEsku, 4);
-    assertThat(score.scoreParJoueur()).containsEntry(joueurZaku, 16);
+    assertThat(scoreManche.vainqueur()).isEmpty();
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeEsku, 4);
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeZaku, 16);
   }
 
   @Test
   void devrait_privilegier_le_joueur_esku_si_les_mains_sont_identiques() {
     when(interfaceJoueurEsku.faireChoixParmi(any())).thenReturn(new Imido());
     when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Idoki());
+    when(interfaceJoueurNormal1.faireChoixParmi(any())).thenReturn(new Idoki());
+    when(interfaceJoueurNormal2.faireChoixParmi(any())).thenReturn(new Idoki());
 
-    Tour tour = new Tour(evenementsDeJeu, paquetAvec(Carte.AS_BATON, Carte.DEUX_BATON, Carte.TROIS_BATON, Carte.QUATRE_BATON, Carte.AS_COUPE, Carte.DEUX_COUPE, Carte.TROIS_COUPE, Carte.QUATRE_COUPE), new Defausse());
+    Tour tour = new Tour(evenementsDeJeu, paquetAvec(Carte.AS_BATON, Carte.DEUX_BATON, Carte.TROIS_BATON, Carte.QUATRE_BATON, Carte.AS_COUPE, Carte.DEUX_COUPE, Carte.TROIS_COUPE, Carte.QUATRE_COUPE, Carte.AS_BATON, Carte.DEUX_BATON, Carte.TROIS_BATON, Carte.QUATRE_BATON, Carte.AS_COUPE, Carte.DEUX_COUPE, Carte.TROIS_COUPE, Carte.QUATRE_COUPE), new Defausse());
 
-    tour.jouer(opposants, score);
+    tour.jouerTour(opposants, scoreManche);
 
-    assertThat(score.vainqueur()).isEmpty();
-    assertThat(score.scoreParJoueur()).containsEntry(joueurEsku, 7);
-    assertThat(score.scoreParJoueur()).containsEntry(joueurZaku, 0);
+    assertThat(scoreManche.vainqueur()).isEmpty();
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeEsku, 7);
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeZaku, 0);
   }
 
   private InterfaceJoueur interfaceJoueurEsku;
   private InterfaceJoueur interfaceJoueurZaku;
-  private InterfaceJoueur interfaceJoueurNormal;
+  private InterfaceJoueur interfaceJoueurNormal1;
+  private InterfaceJoueur interfaceJoueurNormal2;
   private Joueur joueurEsku;
   private Joueur joueurZaku;
   private Joueur joueurNormal1;
@@ -128,7 +140,7 @@ class TourTest {
   private Equipe equipeEsku;
   private Equipe equipeZaku;
   private Opposants opposants;
-  private Manche.Score score;
+  private Manche.ScoreManche scoreManche;
   private AffichageEvenementsDeJeu evenementsDeJeu;
   private Tour tour;
 }

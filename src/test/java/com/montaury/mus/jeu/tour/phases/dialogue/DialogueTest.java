@@ -10,6 +10,7 @@ class DialogueTest {
 
   private final Joueur joueur1 = unJoueur();
   private final Joueur joueur2 = unJoueur();
+  private final Joueur joueur3 = unJoueur();
 
   @Test
   void n_est_pas_termine_si_personne_n_a_parle() {
@@ -22,6 +23,7 @@ class DialogueTest {
   void n_est_pas_termine_si_tout_le_monde_n_a_pas_parle() {
     Dialogue dialogue = new Dialogue();
     dialogue.ajouter(new Paso(), joueur1);
+    //dialogue.ajouter(new Paso(), joueur2);
 
     assertThat(dialogue.enCours()).isTrue();
   }

@@ -14,6 +14,7 @@ public class Dialogue {
 
   public final DialogueTermine derouler(AffichageEvenementsDeJeu affichage, Opposants opposants) {
     Iterator<Joueur> iteratorJoueur = opposants.itererDansLOrdre();
+
     do {
       Joueur parlant = iteratorJoueur.next();
       Choix choixJoueur = parlant.interfaceJoueur.faireChoixParmi(prochainsChoixPossibles());
@@ -21,6 +22,7 @@ public class Dialogue {
       ajouter(choixJoueur, parlant);
     }
     while (enCours());
+
     return new DialogueTermine(choix);
   }
 

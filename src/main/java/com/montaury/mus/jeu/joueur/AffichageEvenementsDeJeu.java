@@ -8,9 +8,9 @@ import com.montaury.mus.jeu.tour.phases.dialogue.Choix;
 public interface AffichageEvenementsDeJeu {
   void nouvellePartie();
   void nouvelleManche();
-  void mancheTerminee(Partie.Score score);
+  void mancheTerminee(Partie.ScorePartie scorePartie);
   void nouveauTour(Opposants opposants);
-  void tourTermine(Opposants opposants, Manche.Score score);
+  void tourTermine(Opposants opposants, Manche.ScoreManche scoreManche);
 
   void choixFait(Joueur joueur, Choix choix);
 

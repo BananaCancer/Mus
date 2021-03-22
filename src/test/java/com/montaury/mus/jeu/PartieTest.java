@@ -38,7 +38,7 @@ class PartieTest {
     when(interfaceJoueurEsku.faireChoixParmi(any())).thenReturn(new Hordago());
     when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Kanta());
 
-    Partie.Resultat resultat = partie.jouer(opposants);
+    Partie.Resultat resultat = partie.jouerPartie(opposants);
 
     assertThat(resultat.vainqueur()).isNotNull();
     assertThat(resultat.score().resultatManches()).hasSizeGreaterThanOrEqualTo(3);

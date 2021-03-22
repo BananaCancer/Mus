@@ -1,7 +1,6 @@
 package com.montaury.mus.jeu;
 
 import com.montaury.mus.jeu.joueur.AffichageEvenementsDeJeu;
-import com.montaury.mus.jeu.joueur.Joueur;
 import com.montaury.mus.jeu.joueur.Opposants;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -16,32 +15,36 @@ public class Partie {
     this.affichage = affichage;
   }
 
-  public Resultat jouer(Opposants opposants) {
+  public Resultat jouerPartie(Opposants opposants) {
     affichage.nouvellePartie();
-    Partie.Score score = new Partie.Score(opposants);
-    Optional<Joueur> vainqueur;
+    ScorePartie scorePartie = new ScorePartie(opposants);
+    Optional<Equipe> vainqueur;
+
     do {
-      Manche.Resultat resultat = new Manche(affichage).jouer(opposants);
-      vainqueur = score.enregistrer(resultat);
-      affichage.mancheTerminee(score);
+      Manche.Resultat resultat = new Manche(affichage).jouerManche(opposants);
+      vainqueur = scorePartie.enregistrer(resultat);
+      affichage.mancheTerminee(scorePartie);
     } while (vainqueur.isEmpty());
-    return new Resultat(vainqueur.get(), score);
+
+    return new Resultat(vainqueur.get(), scorePartie);
   }
 
-  public static class Score {
+  public static class ScorePartie {
     private static final int NB_MANCHES_A_GAGNER = 3;
 
     private final List<Manche.Resultat> resultatManches = new ArrayList<>();
-    private final Map<Joueur, Integer> manchesGagneesParJoueur = new HashMap<>();
+    private final Map<Equipe, Integer> manchesGagneesParEquipe = new HashMap<>();
 
-    public Score(Opposants opposants) {
-      this.manchesGagneesParJoueur.put(opposants.getJoueurEsku(), 0);
-      this.manchesGagneesParJoueur.put(opposants.getJoueurZaku(), 0);
+    public ScorePartie(Opposants opposants) {
+      for(Equipe equipe:opposants.getListeDesEquipes())
+      {
+        manchesGagneesParEquipe.put(equipe,0);
+      }
     }
 
-    public Optional<Joueur> enregistrer(Manche.Resultat score) {
+    public Optional<Equipe> enregistrer(Manche.Resultat score) {
       resultatManches.add(score);
-      manchesGagneesParJoueur.put(score.vainqueur(), manchesGagneesParJoueur.get(score.vainqueur()) + 1);
+      manchesGagneesParEquipe.put(score.vainqueur(), manchesGagneesParEquipe.get(score.vainqueur()) + 1);
       return vainqueur();
     }
 
@@ -49,27 +52,26 @@ public class Partie {
       return resultatManches;
     }
 
-    public Optional<Joueur> vainqueur() {
-      return manchesGagneesParJoueur.keySet().stream()
-        .filter(joueur -> manchesGagneesParJoueur.get(joueur) == NB_MANCHES_A_GAGNER).findAny();
+    public Optional<Equipe> vainqueur() {
+      return manchesGagneesParEquipe.keySet().stream().filter(equipe -> manchesGagneesParEquipe.get(equipe) == NB_MANCHES_A_GAGNER).findAny();
     }
   }
 
   public static class Resultat {
-    private final Joueur vainqueur;
-    private final Score score;
+    private final Equipe vainqueur;
+    private final ScorePartie scorePartie;
 
-    private Resultat(Joueur vainqueur, Score score) {
+    private Resultat(Equipe vainqueur, ScorePartie scorePartie) {
       this.vainqueur = vainqueur;
-      this.score = score;
+      this.scorePartie = scorePartie;
     }
 
-    public Joueur vainqueur() {
+    public Equipe vainqueur() {
       return vainqueur;
     }
 
-    public Score score() {
-      return score;
+    public ScorePartie score() {
+      return scorePartie;
     }
   }
 }

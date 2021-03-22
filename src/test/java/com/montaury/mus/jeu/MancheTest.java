@@ -8,7 +8,6 @@ import com.montaury.mus.jeu.tour.phases.dialogue.Gehiago;
 import com.montaury.mus.jeu.tour.phases.dialogue.Hordago;
 import com.montaury.mus.jeu.tour.phases.dialogue.Imido;
 import com.montaury.mus.jeu.tour.phases.dialogue.Kanta;
-import com.montaury.mus.jeu.tour.phases.dialogue.Paso;
 import com.montaury.mus.jeu.tour.phases.dialogue.Tira;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,7 +43,7 @@ class MancheTest {
     when(interfaceJoueurEsku.faireChoixParmi(any())).thenReturn(new Hordago());
     when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Kanta());
 
-    Manche.Resultat resultat = manche.jouer(opposants);
+    Manche.Resultat resultat = manche.jouerManche(opposants);
 
     assertThat(resultat.vainqueur()).isNotNull();
     assertThat(resultat.pointsVaincu()).isZero();
@@ -55,9 +54,9 @@ class MancheTest {
     when(interfaceJoueurEsku.faireChoixParmi(any())).thenReturn(new Imido(), new Gehiago(2));
     when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Gehiago(40), new Tira());
 
-    Manche.Resultat resultat = manche.jouer(opposants);
+    Manche.Resultat resultat = manche.jouerManche(opposants);
 
-    assertThat(resultat.vainqueur()).isEqualTo(joueurEsku);
+    assertThat(resultat.vainqueur().getJoueurUn()).isEqualTo(joueurEsku);
     assertThat(resultat.pointsVaincu()).isZero();
   }
 
@@ -66,7 +65,7 @@ class MancheTest {
     when(interfaceJoueurEsku.faireChoixParmi(any())).thenReturn(new Hordago());
     when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Kanta());
 
-    manche.jouer(opposants);
+    manche.jouerManche(opposants);
 
     assertThat(opposants.dansLOrdre()).containsExactly(joueurZaku, joueurEsku);
   }
