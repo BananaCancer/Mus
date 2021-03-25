@@ -15,7 +15,7 @@ public class Mus {
     Equipe equipeHumain = Equipe.equipeHumain(nomEquipe, nomJoueur);
 
     Partie partie = new Partie(new AffichageConsoleEvenementsDeJeu(equipeHumain.getJoueurUn()));
-    Partie.Resultat resultat = partie.jouerPartie(new Opposants(equipeHumain, Equipe.equipeOdinateurs()));
+    Partie.Resultat resultat = partie.jouerPartie(new Opposants(equipeHumain, Equipe.equipeOrdinateurs()));
 
     System.out.println("Le vainqueur de la partie est " + resultat.vainqueur().getNomEquipe());
   }

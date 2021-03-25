@@ -22,7 +22,8 @@ public class FauxJeu extends Phase {
   {
     Joueur joueurMeilleurFauxJeu = opposants.getJoueurEsku();
     int scoreMeilleurFauxJeu = joueurMeilleurFauxJeu.main().pointsPourJeu();
-    for(Joueur joueur: opposants.dansLOrdre())
+
+    for(Joueur joueur:opposants.dansLOrdre())
     {
       if(joueur.main().pointsPourJeu() > scoreMeilleurFauxJeu)
       {

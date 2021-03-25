@@ -21,19 +21,19 @@ public class Opposants
     listeDesEquipes.add(equipe2);
 
     listeDesJoueursOrdonnes.add(equipe1.getJoueurUn());
-    joueurEsku = listeDesJoueursOrdonnes.get(0);
     listeDesJoueursOrdonnes.add(equipe2.getJoueurUn());
     listeDesJoueursOrdonnes.add(equipe1.getJoueurDeux());
     listeDesJoueursOrdonnes.add(equipe2.getJoueurDeux());
-    joueurZaku = listeDesJoueursOrdonnes.get(3);
 
+    joueurEsku = listeDesJoueursOrdonnes.get(0);
+    joueurZaku = listeDesJoueursOrdonnes.get(3);
   }
 
   public void tourner()
   {
-    Joueur joueurTeteDeFil;
-    joueurTeteDeFil = listeDesJoueursOrdonnes.remove(0);
-    listeDesJoueursOrdonnes.add(joueurTeteDeFil);
+    Joueur joueurTeteDeListe;
+    joueurTeteDeListe = listeDesJoueursOrdonnes.remove(0);
+    listeDesJoueursOrdonnes.add(joueurTeteDeListe);
     joueurEsku = listeDesJoueursOrdonnes.get(0);
     joueurZaku = listeDesJoueursOrdonnes.get(3);
   }
@@ -89,8 +89,9 @@ public class Opposants
       {
         if(joueurActuel == suivant)
         {
-          indexJoueurSuivant = (opposants.listeDesJoueursOrdonnes.indexOf(joueurActuel)+1)%4;
+          indexJoueurSuivant = ((opposants.listeDesJoueursOrdonnes.indexOf(joueurActuel))+1)%4;
           suivant = opposants.listeDesJoueursOrdonnes.get(indexJoueurSuivant);
+          break;
         }
       }
       return next;

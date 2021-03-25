@@ -17,9 +17,9 @@ public class Joueur
     return new Joueur(nom, new InterfaceJoueurHumain());
   }
 
-  public static Joueur ordinateur()
+  public static Joueur ordinateur(String nom)
   {
-    return new Joueur("Ordinateur", new InterfaceJoueurOrdinateur());
+    return new Joueur(nom, new InterfaceJoueurOrdinateur());
   }
 
   public Joueur(String nomJoueur, InterfaceJoueur interfaceJoueur)

@@ -17,6 +17,7 @@ public class Dialogue {
 
     do {
       Joueur parlant = iteratorJoueur.next();
+      //System.out.println(parlant.getNomJoueur());
       Choix choixJoueur = parlant.interfaceJoueur.faireChoixParmi(prochainsChoixPossibles());
       affichage.choixFait(parlant, choixJoueur);
       ajouter(choixJoueur, parlant);

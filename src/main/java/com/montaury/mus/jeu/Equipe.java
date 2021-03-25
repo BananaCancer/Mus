@@ -11,12 +11,12 @@ public class Equipe {
 
     public static Equipe equipeHumain(String nomEquipe, String nomJoueur)
     {
-        return new Equipe(nomEquipe, Joueur.humain(nomJoueur), Joueur.ordinateur());
+        return new Equipe(nomEquipe, Joueur.humain(nomJoueur), Joueur.ordinateur("Camarade"));
     }
 
-    public static Equipe equipeOdinateurs()
+    public static Equipe equipeOrdinateurs()
     {
-        return new Equipe("Equipe ordinateurs", Joueur.ordinateur(), Joueur.ordinateur());
+        return new Equipe("Equipe ordinateurs", Joueur.ordinateur("Méchant 1"), Joueur.ordinateur("Méchant 2"));
     }
 
     public Equipe(String nomE, Joueur joueur1, Joueur joueur2)

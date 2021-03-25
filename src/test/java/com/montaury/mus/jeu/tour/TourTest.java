@@ -34,9 +34,9 @@ class TourTest {
     interfaceJoueurNormal1 = mock(InterfaceJoueur.class);
     interfaceJoueurNormal2 = mock(InterfaceJoueur.class);
     joueurEsku = new Joueur("J1", interfaceJoueurEsku);
-    joueurZaku = new Joueur("J4", interfaceJoueurZaku);
     joueurNormal1 = new Joueur("J2", interfaceJoueurNormal1);
     joueurNormal2 = new Joueur("J3", interfaceJoueurNormal2);
+    joueurZaku = new Joueur("J4", interfaceJoueurZaku);
     equipeEsku = new Equipe("E1", joueurEsku, joueurNormal1);
     equipeZaku = new Equipe("E2", joueurNormal2, joueurZaku);
     opposants = new Opposants(equipeEsku, equipeZaku);
@@ -104,13 +104,15 @@ class TourTest {
   @Test
   void devrait_partager_les_points_si_tout_est_gehiago_puis_idoki() {
     when(interfaceJoueurEsku.faireChoixParmi(any())).thenReturn(new Imido(), new Idoki(), new Imido(), new Idoki(), new Imido(), new Idoki(), new Imido(), new Idoki());
-    when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Gehiago(2));
+    when(interfaceJoueurNormal2.faireChoixParmi(any())).thenReturn(new Gehiago(2));
+    when(interfaceJoueurNormal1.faireChoixParmi(any())).thenReturn(new Idoki());
+    when(interfaceJoueurZaku.faireChoixParmi(any())).thenReturn(new Idoki());
 
     tour.jouerTour(opposants, scoreManche);
 
     assertThat(scoreManche.vainqueur()).isEmpty();
-    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeEsku, 4);
-    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeZaku, 16);
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeEsku, 2);
+    assertThat(scoreManche.scoreParEquipe()).containsEntry(equipeZaku, 14);
   }
 
   @Test
