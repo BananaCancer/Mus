@@ -38,6 +38,13 @@ public class Equipe {
         return listeJoueursEquipe.get(1);
     }
 
+    public Joueur getAutreJoueurEquipe(Joueur joueurActuelEquipe)
+    {
+        int indexAutreJoueur = (listeJoueursEquipe.indexOf(joueurActuelEquipe)+1)%2;
+        Joueur autreJoueurEquipe = listeJoueursEquipe.get(indexAutreJoueur);
+        return autreJoueurEquipe;
+    }
+
     public List<Joueur> getListeJoueursEquipe() {
         return listeJoueursEquipe;
     }

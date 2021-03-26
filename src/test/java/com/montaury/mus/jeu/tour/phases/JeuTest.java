@@ -24,10 +24,12 @@ class JeuTest {
   }
 
   @Test
-  void ne_doit_pas_se_derouler_si_un_des_joueurs_n_a_pas_le_jeu() {
+  void ne_doit_pas_se_derouler_si_une_equipe_a_un_seul_jeu() {
     Opposants opposants = new Opposants(
-      uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)), unJoueurAvec(main(Carte.AS_COUPE, Carte.QUATRE_COUPE, Carte.VALET_COUPE, Carte.SIX_COUPE))),
-      uneEquipeAvec(unJoueurAvec(main(Carte.AS_EPEE, Carte.QUATRE_EPEE, Carte.VALET_EPEE, Carte.SIX_EPEE)), unJoueurAvec(main(Carte.VALET_PIECE, Carte.CAVALIER_PIECE, Carte.ROI_BATON, Carte.AS_PIECE)))
+      uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)),
+                    unJoueurAvec(main(Carte.AS_COUPE, Carte.QUATRE_COUPE, Carte.VALET_COUPE, Carte.SIX_COUPE))),
+      uneEquipeAvec(unJoueurAvec(main(Carte.AS_EPEE, Carte.QUATRE_EPEE, Carte.VALET_EPEE, Carte.SIX_EPEE)),
+                    unJoueurAvec(main(Carte.VALET_PIECE, Carte.CAVALIER_PIECE, Carte.ROI_BATON, Carte.AS_PIECE)))
     );
 
     boolean peutSeDerouler = new Jeu().peutSeDerouler(opposants);
@@ -36,10 +38,40 @@ class JeuTest {
   }
 
   @Test
-  void devrait_se_derouler_si_deux_joueurs_ont_le_jeu() {
+  void ne_doit_pas_se_derouler_si_une_equipe_a_deux_jeux() {
     Opposants opposants = new Opposants(
-      uneEquipeAvec(unJoueurAvec(main(Carte.SIX_COUPE, Carte.SEPT_EPEE, Carte.VALET_BATON, Carte.VALET_COUPE)), unJoueurAvec(main(Carte.VALET_COUPE, Carte.CAVALIER_COUPE, Carte.ROI_EPEE, Carte.AS_EPEE))),
-      uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)), unJoueurAvec(main(Carte.VALET_PIECE, Carte.CAVALIER_PIECE, Carte.ROI_BATON, Carte.AS_PIECE)))
+            uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)),
+                    unJoueurAvec(main(Carte.AS_COUPE, Carte.QUATRE_COUPE, Carte.VALET_COUPE, Carte.SIX_COUPE))),
+            uneEquipeAvec(unJoueurAvec(main(Carte.VALET_EPEE, Carte.CAVALIER_BATON, Carte.ROI_EPEE, Carte.AS_EPEE)),
+                    unJoueurAvec(main(Carte.VALET_PIECE, Carte.CAVALIER_PIECE, Carte.ROI_BATON, Carte.AS_PIECE)))
+    );
+
+    boolean peutSeDerouler = new Jeu().peutSeDerouler(opposants);
+
+    assertThat(peutSeDerouler).isFalse();
+  }
+
+  @Test
+  void devrait_se_derouler_si_deux_equipes_ont_un_jeu_chacune() {
+    Opposants opposants = new Opposants(
+      uneEquipeAvec(unJoueurAvec(main(Carte.SIX_COUPE, Carte.SEPT_EPEE, Carte.VALET_BATON, Carte.VALET_COUPE)),
+                    unJoueurAvec(main(Carte.VALET_COUPE, Carte.CAVALIER_COUPE, Carte.ROI_EPEE, Carte.AS_EPEE))),
+      uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)),
+                    unJoueurAvec(main(Carte.VALET_PIECE, Carte.CAVALIER_PIECE, Carte.ROI_BATON, Carte.AS_PIECE)))
+    );
+
+    boolean peutSeDerouler = new Jeu().peutSeDerouler(opposants);
+
+    assertThat(peutSeDerouler).isTrue();
+  }
+
+  @Test
+  void devrait_se_derouler_si_deux_equipes_ont_deux_jeux_chacune() {
+    Opposants opposants = new Opposants(
+            uneEquipeAvec(unJoueurAvec(main(Carte.VALET_EPEE, Carte.CAVALIER_EPEE, Carte.ROI_EPEE, Carte.AS_EPEE)),
+                    unJoueurAvec(main(Carte.VALET_PIECE, Carte.CAVALIER_PIECE, Carte.ROI_PIECE, Carte.AS_PIECE))),
+            uneEquipeAvec(unJoueurAvec(main(Carte.VALET_BATON, Carte.CAVALIER_BATON, Carte.ROI_BATON, Carte.AS_BATON)),
+                    unJoueurAvec(main(Carte.VALET_COUPE, Carte.CAVALIER_COUPE, Carte.ROI_COUPE, Carte.AS_COUPE)))
     );
 
     boolean peutSeDerouler = new Jeu().peutSeDerouler(opposants);

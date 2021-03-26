@@ -1,6 +1,7 @@
 package com.montaury.mus.jeu.tour.phases;
 
 
+import com.montaury.mus.jeu.Equipe;
 import com.montaury.mus.jeu.Manche;
 import com.montaury.mus.jeu.joueur.AffichageEvenementsDeJeu;
 import com.montaury.mus.jeu.joueur.Joueur;
@@ -79,19 +80,23 @@ public abstract class Phase
     return  listeDesParticipants;
   }
 
-  public final boolean peutSeDerouler(Opposants opposants)
+  public boolean peutSeDerouler(Opposants opposants)
   {
     int nombreParticipants = 0;
     boolean seDeroulerPossible;
 
-    for(Joueur joueur: opposants.dansLOrdre())
+    for(Equipe equipe:opposants.getListeDesEquipes())
     {
-      if(peutParticiper(joueur))
+      for(Joueur joueur:equipe.getListeJoueursEquipe())
       {
-        nombreParticipants++;
+        if(peutParticiper(joueur))
+        {
+          nombreParticipants++;
+          break;
+        }
       }
     }
-    seDeroulerPossible = nombreParticipants >= 3;
+    seDeroulerPossible = nombreParticipants == 2;
     return seDeroulerPossible;
   }
 

@@ -31,7 +31,7 @@ public class AffichageConsoleEvenementsDeJeu implements AffichageEvenementsDeJeu
   public void mancheTerminee(Partie.ScorePartie scorePartie)
   {
     println("Manche terminée");
-    scorePartie.resultatManches().forEach(manche -> println("Vainqueur : " + manche.vainqueur() + ", score du perdant : " + manche.pointsVaincu()));
+    scorePartie.resultatManches().forEach(manche -> println("Vainqueur : " + manche.vainqueur().getNomEquipe() + ", score du perdant : " + manche.pointsVaincu()));
   }
 
   @Override
@@ -87,7 +87,7 @@ public class AffichageConsoleEvenementsDeJeu implements AffichageEvenementsDeJeu
   public void partieTerminee(Partie.Resultat resultat)
   {
     println("La partie est terminée !");
-    println("Vainqueur: " + resultat.vainqueur());
+    println("Vainqueur: " + resultat.vainqueur().getNomEquipe());
   }
 
   private void println(String string)

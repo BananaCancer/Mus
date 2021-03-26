@@ -48,6 +48,13 @@ public class Opposants
     return joueurZaku;
   }
 
+  public Equipe getAutreEquipe(Equipe equipeActuelle)
+  {
+    int indexAutreEquipe = (listeDesEquipes.indexOf(equipeActuelle)+1)%2;
+    Equipe autreEquipe = listeDesEquipes.get(indexAutreEquipe);
+    return  autreEquipe;
+  }
+
   public List<Equipe> getListeDesEquipes()
   {
     return listeDesEquipes;

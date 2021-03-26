@@ -13,8 +13,10 @@ class FauxJeuTest {
   @Test
   void ne_doit_pas_se_derouler_si_un_seul_des_joueurs_a_le_jeu() {
     Opposants opposants = new Opposants(
-      uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)), unJoueurAvec(main(Carte.DEUX_BATON, Carte.DEUX_COUPE, Carte.DEUX_EPEE, Carte.DEUX_PIECE))),
-      uneEquipeAvec(unJoueurAvec(main(Carte.TROIS_PIECE, Carte.TROIS_BATON, Carte.TROIS_COUPE, Carte.TROIS_EPEE)), unJoueurAvec(main(Carte.VALET_PIECE, Carte.CAVALIER_PIECE, Carte.ROI_BATON, Carte.AS_PIECE)))
+      uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)),
+                    unJoueurAvec(main(Carte.DEUX_BATON, Carte.DEUX_COUPE, Carte.DEUX_EPEE, Carte.DEUX_PIECE))),
+      uneEquipeAvec(unJoueurAvec(main(Carte.TROIS_PIECE, Carte.TROIS_BATON, Carte.TROIS_COUPE, Carte.TROIS_EPEE)),
+                    unJoueurAvec(main(Carte.VALET_PIECE, Carte.CAVALIER_PIECE, Carte.ROI_BATON, Carte.AS_PIECE)))
     );
 
     boolean peutSeDerouler = new FauxJeu().peutSeDerouler(opposants);
@@ -25,8 +27,10 @@ class FauxJeuTest {
   @Test
   void doit_se_derouler_si_personne_n_a_le_jeu() {
     Opposants opposants = new Opposants(
-      uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)), unJoueur()),
-      uneEquipeAvec(unJoueur(), unJoueurAvec(main(Carte.VALET_PIECE, Carte.SIX_PIECE, Carte.QUATRE_BATON, Carte.AS_PIECE)))
+      uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)),
+                    unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE))),
+      uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)),
+                    unJoueurAvec(main(Carte.VALET_PIECE, Carte.SIX_PIECE, Carte.QUATRE_BATON, Carte.AS_PIECE)))
 
     );
 
@@ -38,9 +42,11 @@ class FauxJeuTest {
   @Test
   void devrait_faire_gagner_le_joueur_ayant_le_plus_grand_nombre_de_points() {
     Joueur joueurZaku = unJoueurAvec(main(Carte.VALET_PIECE, Carte.SIX_PIECE, Carte.QUATRE_BATON, Carte.ROI_COUPE));
-    Equipe equipeZaku = uneEquipeAvec(unJoueur(), joueurZaku);
+    Equipe equipeZaku = uneEquipeAvec(unJoueurAvec(main(Carte.AS_EPEE, Carte.AS_EPEE, Carte.AS_EPEE, Carte.AS_EPEE)),
+                        joueurZaku);
     Opposants opposants = new Opposants(
-      uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)), unJoueur()),
+      uneEquipeAvec(unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE)),
+                    unJoueurAvec(main(Carte.AS_BATON, Carte.QUATRE_PIECE, Carte.VALET_BATON, Carte.SIX_COUPE))),
       equipeZaku
     );
 
